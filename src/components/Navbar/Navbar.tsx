@@ -10,9 +10,17 @@ interface Props {
 
 const Navbar = () => {
 
-  const {isLoggedIn} =  useAuth();
-  
-  
+  const {isLoggedIn, user} =  useAuth();
+  let isAdmin= false;
+
+  if(user.email == import.meta.env.VITE_ADMIN_MAIL){
+    isAdmin=true;
+    console.log("isAdmin", isAdmin);
+    
+  }else{
+    isAdmin=false;
+  }
+
   
 
  return (
@@ -34,7 +42,9 @@ const Navbar = () => {
           <div className=" mx-2 px-2 navbar-links">
             <nav>
               <ul className="flex gap-4">
-
+              {isAdmin ? <><li>
+                  <NavLink to="/admin" className=' md:block lg:block'>Admin</NavLink>
+                </li></> : null }
                 <li>
                   <NavLink to="/" className=' md:block lg:block'>About</NavLink>
                 </li>

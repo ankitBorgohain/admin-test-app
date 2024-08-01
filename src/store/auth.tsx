@@ -17,6 +17,9 @@ interface AuthContextType {
     storeTokenInLS: (serverToken: string) => void;
     user: string;
     services: IService[];
+    AuthorizationToken: string;
+    // isAdmin: boolean;
+    isLoading: boolean;
     
 }
 
@@ -31,11 +34,17 @@ interface AuthProviderProps {
 const URL = "http://localhost:5000/api/auth/user";
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({children})=>{
-
+        const adminMail = import.meta.env.VITE_ADMIN_MAIL;
 
         const [token, setToken]= useState(localStorage.getItem('token'));
         const [user, setUser] = useState("");
         const [services, setServices] = useState<IService[]>([]);
+        // const [isAdmin, setIsAdmin] = useState(false);
+        const [isLoading, setIsLoading] = useState(true )
+
+
+        
+        
         // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 
@@ -70,37 +79,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children})=>{
 
 
     //JWT token authentication : to get currently logged in user's data
+    const AuthorizationToken = `Bearer ${token}`;
 
     const userAuthentication = async () =>{
         try {  
-
+            setIsLoading(true)
             if(!token)return;
             const response = await fetch(URL, {
                 method: "GET",
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': AuthorizationToken
                 }
             } );
-            // console.log(response);
-            
 
             if(response.ok == false){
                 console.log("Response not OK:", response.status, response.statusText);
-                
 
             }else{
-                
                
                 const data = await response.json();
-                console.log("logged in user's data : ", data.userData);
+                // console.log("logged in user's data : ", data.userData);
                 setUser(data.userData);
-                
+                setIsLoading(false);
+          
             }
             
         } catch (error) {
             console.log("error",error);
-            
-            
         }
         
     }
@@ -116,7 +121,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children})=>{
     
             if (response.ok) {
                 const data = await response.json();
-                console.log("API response data:", data);
+                // console.log("API response data:", data);
                 setServices(data);
 
     
@@ -133,7 +138,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children})=>{
  
     
 
-    return <AuthContext.Provider value={{  isLoggedIn , storeTokenInLS, user, logoutUser,  services  }}>
+    return <AuthContext.Provider value={{  isLoggedIn , storeTokenInLS, user, logoutUser,  services , AuthorizationToken, isLoading  }}>
         {children}
     </AuthContext.Provider>
 

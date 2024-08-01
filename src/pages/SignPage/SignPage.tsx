@@ -10,8 +10,10 @@ const SignPage: React.FC = () => {
     name: "",
     email: "",
     password: "",
+    
   });
-
+ // let name = e.target.name;
+    // let value = e.target.value;
  
   
   const navigate = useNavigate();
@@ -23,8 +25,7 @@ const SignPage: React.FC = () => {
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // let name = e.target.name;
-    // let value = e.target.value;
+   
 
     setUser({
       ...user,
@@ -32,8 +33,6 @@ const SignPage: React.FC = () => {
     });
 
   };
-
-
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -55,7 +54,7 @@ const SignPage: React.FC = () => {
       if(response.ok){
   
         storeTokenInLS(res_data.token)
-        setUser({name:"", email: "", password: ""});
+        setUser({name:"", email: "", password: "",});
         toast.success("Regestration successful");
         navigate('/')       
       }else{
@@ -212,6 +211,10 @@ const SignPage: React.FC = () => {
                     
 
                   </div>
+                  <div className="mx-auto">
+                      
+                    </div>
+
                   {/* {errors.password && <div className="text-red-500">{errors.password}</div>} */}
                   <div className="flex justify-end mt-12">
                     <div className="flex items-center mr-32">
@@ -238,3 +241,4 @@ const SignPage: React.FC = () => {
   );
 };
 export default SignPage;
+

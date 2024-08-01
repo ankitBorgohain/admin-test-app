@@ -65,6 +65,31 @@ textarea{
   font-weight: 200;
 }
 
+body tr{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(10rem,1fr));
+  border-bottom: 1px solid rgb(225, 84, 84);
+  text-align: center;
+  
+  padding: 10px;
+}
+.table-head{
+  border-bottom: 3px solid rgb(127, 93, 93);
+}
+
+tbody tr:last-child {
+
+  border-bottom-left-radius: 5px ;
+  border-bottom-right-radius: 5px ;
+  background: #4a4747;
+}
+
+.delete-btn:hover{
+  background-color: red;
+}
+
+
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
